@@ -16,20 +16,22 @@ pub fn gen(n: usize) -> impl Generator<Yield = usize, Return = ()> {
                     }
                 }
                 (2, b) => {
-                    for _ in 0..(b - 1) {
-                        yield b;
-                    }
-                    for _ in 0..b {
-                        yield 1;
+                    for i in 0..(b - 1 + b) {
+                        if i < b - 1 {
+                            yield b;
+                        } else {
+                            yield 1;
+                        }
                     }
                 }
                 (3, b) => {
                     for _ in 0..(b - 1) {
-                        for _ in 0..(b - 1) {
-                            yield b;
-                        }
-                        for _ in 0..b {
-                            yield 1;
+                        for i in 0..(b - 1 + b) {
+                            if i < b - 1 {
+                                yield b;
+                            } else {
+                                yield 1;
+                            }
                         }
                     }
                     for _ in 0..(b * b) {
@@ -51,6 +53,171 @@ pub fn gen(n: usize) -> impl Generator<Yield = usize, Return = ()> {
                         }
                     }
                     for _ in 0..(b * b * b) {
+                        yield 1;
+                    }
+                }
+                (5, b) => {
+                    for _ in 0..(b - 1) {
+                        for _ in 0..(b - 1) {
+                            for _ in 0..(b - 1) {
+                                for _ in 0..(b - 1) {
+                                    yield b;
+                                }
+                                for _ in 0..b {
+                                    yield 1;
+                                }
+                            }
+                            for _ in 0..(b * b) {
+                                yield 1;
+                            }
+                        }
+                        for _ in 0..(b * b * b) {
+                            yield 1;
+                        }
+                    }
+                    for _ in 0..(b * b * b * b) {
+                        yield 1;
+                    }
+                }
+                (6, b) => {
+                    for _ in 0..(b - 1) {
+                        for _ in 0..(b - 1) {
+                            for _ in 0..(b - 1) {
+                                for _ in 0..(b - 1) {
+                                    for _ in 0..(b - 1) {
+                                        yield b;
+                                    }
+                                    for _ in 0..b {
+                                        yield 1;
+                                    }
+                                }
+                                for _ in 0..(b * b) {
+                                    yield 1;
+                                }
+                            }
+                            for _ in 0..(b * b * b) {
+                                yield 1;
+                            }
+                        }
+                        for _ in 0..(b * b * b * b) {
+                            yield 1;
+                        }
+                    }
+                    for _ in 0..(b * b * b * b * b) {
+                        yield 1;
+                    }
+                }
+                (7, b) => {
+                    for _ in 0..(b - 1) {
+                        for _ in 0..(b - 1) {
+                            for _ in 0..(b - 1) {
+                                for _ in 0..(b - 1) {
+                                    for _ in 0..(b - 1) {
+                                        for _ in 0..(b - 1) {
+                                            yield b;
+                                        }
+                                        for _ in 0..b {
+                                            yield 1;
+                                        }
+                                    }
+                                    for _ in 0..(b * b) {
+                                        yield 1;
+                                    }
+                                }
+                                for _ in 0..(b * b * b) {
+                                    yield 1;
+                                }
+                            }
+                            for _ in 0..(b * b * b * b) {
+                                yield 1;
+                            }
+                        }
+                        for _ in 0..(b * b * b * b * b) {
+                            yield 1;
+                        }
+                    }
+                    for _ in 0..(b * b * b * b * b * b) {
+                        yield 1;
+                    }
+                }
+                (8, b) => {
+                    for _ in 0..(b - 1) {
+                        for _ in 0..(b - 1) {
+                            for _ in 0..(b - 1) {
+                                for _ in 0..(b - 1) {
+                                    for _ in 0..(b - 1) {
+                                        for _ in 0..(b - 1) {
+                                            for _ in 0..(b - 1) {
+                                                yield b;
+                                            }
+                                            for _ in 0..b {
+                                                yield 1;
+                                            }
+                                        }
+                                        for _ in 0..(b * b) {
+                                            yield 1;
+                                        }
+                                    }
+                                    for _ in 0..(b * b * b) {
+                                        yield 1;
+                                    }
+                                }
+                                for _ in 0..(b * b * b * b) {
+                                    yield 1;
+                                }
+                            }
+                            for _ in 0..(b * b * b * b * b) {
+                                yield 1;
+                            }
+                        }
+                        for _ in 0..(b * b * b * b * b * b) {
+                            yield 1;
+                        }
+                    }
+                    for _ in 0..(b * b * b * b * b * b) {
+                        yield 1;
+                    }
+                }
+                (9, b) => {
+                    for _ in 0..(b - 1) {
+                        for _ in 0..(b - 1) {
+                            for _ in 0..(b - 1) {
+                                for _ in 0..(b - 1) {
+                                    for _ in 0..(b - 1) {
+                                        for _ in 0..(b - 1) {
+                                            for _ in 0..(b - 1) {
+                                                for _ in 0..(b - 1) {
+                                                    yield b;
+                                                }
+                                                for _ in 0..b {
+                                                    yield 1;
+                                                }
+                                            }
+                                            for _ in 0..(b * b) {
+                                                yield 1;
+                                            }
+                                        }
+                                        for _ in 0..(b * b * b) {
+                                            yield 1;
+                                        }
+                                    }
+                                    for _ in 0..(b * b * b * b) {
+                                        yield 1;
+                                    }
+                                }
+                                for _ in 0..(b * b * b * b * b) {
+                                    yield 1;
+                                }
+                            }
+                            for _ in 0..(b * b * b * b * b * b) {
+                                yield 1;
+                            }
+                        }
+                        for _ in 0..(b * b * b * b * b * b * b) {
+                            yield 1;
+                        }
+                    }
+                    for _ in 0..(b * b * b * b * b * b * b) {
                         yield 1;
                     }
                 }
