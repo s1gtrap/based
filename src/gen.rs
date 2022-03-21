@@ -25,14 +25,19 @@ pub fn gen(n: usize) -> impl Generator<Yield = usize, Return = ()> {
                     }
                 }
                 (3, b) => {
-                    for i in 0..((b - 1) * (b - 1 + b)) {
-                        if i % (b - 1 + b) < b - 1 {
+                    let np = n - 1;
+                    let bnp = usize::pow(b, np as _);
+                    let skip = b - 1;
+                    let pass = b;
+                    let fst_len = skip + pass;
+                    for i in 0..(skip * fst_len) {
+                        if i % fst_len < skip {
                             yield b;
                         } else {
                             yield 1;
                         }
                     }
-                    for _ in 0..(b * b) {
+                    for _ in 0..bnp {
                         yield 1;
                     }
                 }
