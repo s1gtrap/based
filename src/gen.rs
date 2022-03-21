@@ -37,24 +37,22 @@ pub fn gen(n: usize) -> impl Generator<Yield = usize, Return = ()> {
                     }
                 }
                 (n @ 4, b) => {
-                    let n_prev = n - 1;
-                    let n_prev_prev = n - 2;
-                    let bn_prev = usize::pow(b, n_prev as _);
-                    let bn_prev_prev = usize::pow(b, n_prev_prev as _);
+                    let np = n - 1;
+                    let npp = n - 2;
+                    let bnp = usize::pow(b, np as _);
+                    let bnpp = usize::pow(b, npp as _);
                     let skip = b - 1;
                     let pass = b;
-                    let fst_iter_len = skip + pass;
-                    let snd_iter_len = skip * fst_iter_len + bn_prev_prev;
-                    for i in 0..(skip * snd_iter_len) {
-                        if i % snd_iter_len % fst_iter_len < skip
-                            && i % snd_iter_len < skip * fst_iter_len
-                        {
+                    let fst_len = skip + pass;
+                    let snd_len = skip * fst_len + bnpp;
+                    for i in 0..(skip * snd_len) {
+                        if i % snd_len % fst_len < skip && i % snd_len < skip * fst_len {
                             yield b;
                         } else {
                             yield 1;
                         }
                     }
-                    for _ in 0..bn_prev {
+                    for _ in 0..bnp {
                         yield 1;
                     }
                 }
