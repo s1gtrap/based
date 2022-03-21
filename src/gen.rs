@@ -37,6 +37,20 @@ pub fn gen(n: usize) -> impl Generator<Yield = usize, Return = ()> {
                     }
                 }
                 (4, b) => {
+                    for i in 0..((b - 1) * (((b - 1) * (b - 1 + b)) + (b * b))) {
+                        if i % ((b - 1) * (b - 1 + b) + (b * b)) % (b - 1 + b) < b - 1
+                            && i % ((b - 1) * (b - 1 + b) + (b * b)) < (b - 1) * (b - 1 + b)
+                        {
+                            yield b;
+                        } else {
+                            yield 1;
+                        }
+                    }
+                    for _ in 0..(b * b * b) {
+                        yield 1;
+                    }
+                }
+                (4, b) => {
                     for _ in 0..(b - 1) {
                         for i in 0..((b - 1) * (b - 1 + b)) {
                             if i % (b - 1 + b) < b - 1 {
