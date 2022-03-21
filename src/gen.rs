@@ -42,22 +42,22 @@ pub fn gen(n: usize) -> impl Generator<Yield = usize, Return = ()> {
                     }
                 }
                 (n @ 4, b) => {
-                    let np = n - 1;
-                    let npp = n - 2;
-                    let bnp = usize::pow(b, np as _);
-                    let bnpp = usize::pow(b, npp as _);
                     let skip = b - 1;
                     let pass = b;
-                    let fst_len = skip + pass;
-                    let snd_len = skip * fst_len + bnpp;
-                    for i in 0..(skip * snd_len) {
-                        if i % snd_len % fst_len < skip && i % snd_len < skip * fst_len {
+                    let mut len = Vec::with_capacity(n - 2);
+                    len.insert(0, skip + pass);
+                    for i in 1..n - 2 {
+                        len.insert(i, skip * len[i - 1] + usize::pow(b, (n + i - 3) as _));
+                    }
+                    for i in 0..(skip * len[len.len() - 1]) {
+                        let mut j = 1;
+                        if i % len[1] % len[0] < skip && i % len[1] < skip * len[0] {
                             yield b;
                         } else {
                             yield 1;
                         }
                     }
-                    for _ in 0..bnp {
+                    for _ in 0..usize::pow(b, (n - 1) as _) {
                         yield 1;
                     }
                 }
