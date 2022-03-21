@@ -57,25 +57,28 @@ pub fn gen(n: usize) -> impl Generator<Yield = usize, Return = ()> {
                     }
                 }
                 (5, b) => {
-                    for _ in 0..(b - 1) {
-                        for _ in 0..(b - 1) {
-                            for _ in 0..(b - 1) {
-                                for _ in 0..(b - 1) {
-                                    yield b;
-                                }
-                                for _ in 0..b {
-                                    yield 1;
-                                }
-                            }
-                            for _ in 0..(b * b) {
-                                yield 1;
-                            }
-                        }
-                        for _ in 0..(b * b * b) {
+                    let np = n - 1;
+                    let npp = n - 2;
+                    let nppp = n - 3;
+                    let bnp = usize::pow(b, np as _);
+                    let bnpp = usize::pow(b, npp as _);
+                    let bnppp = usize::pow(b, nppp as _);
+                    let skip = b - 1;
+                    let pass = b;
+                    let fst_len = skip + pass;
+                    let snd_len = skip * fst_len + bnppp;
+                    let trd_len = skip * snd_len + bnpp;
+                    for i in 0..(skip * trd_len) {
+                        if i % trd_len % snd_len % fst_len < skip
+                            && i % trd_len % snd_len < skip * fst_len
+                            && i % trd_len < skip * snd_len
+                        {
+                            yield b;
+                        } else {
                             yield 1;
                         }
                     }
-                    for _ in 0..(b * b * b * b) {
+                    for _ in 0..bnp {
                         yield 1;
                     }
                 }

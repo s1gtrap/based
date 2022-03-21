@@ -8077,7 +8077,6 @@ fn test_gen() {
         println!("fdsdf");
 
         let mut v = vec![];
-        let d = UniqDigits::new(2, bw);
 
         let mut gen = based::gen::gen(bw);
         let mut digs = based::Digits::new(2, bw);
