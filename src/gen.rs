@@ -93,15 +93,19 @@ pub fn gen(n: usize) -> impl Generator<Yield = usize, Return = ()> {
                         len.insert(i, skip * len[i - 1] + usize::pow(b, (i + 1) as _));
                     }
                     for i in 0..(skip * len[len.len() - 1]) {
-                        let mut j = 1;
-                        if i % len[3] % len[2] % len[1] % len[0] < skip
-                            && i % len[3] % len[2] % len[1] < skip * len[0]
-                            && i % len[3] % len[2] < skip * len[1]
-                            && i % len[3] < skip * len[2]
-                        {
-                            yield b;
-                        } else {
-                            yield 1;
+                        let mut j = 0;
+                        yield 'outer: loop {
+                            let mut i = i;
+                            for k in (j..len.len()).rev() {
+                                i %= len[k];
+                            }
+                            if i >= skip * if j == 0 { 1 } else { len[j - 1] } {
+                                break 1;
+                            }
+                            if j == len.len() {
+                                break b;
+                            }
+                            j += 1;
                         }
                     }
                     for _ in 0..usize::pow(b, (n - 1) as _) {
