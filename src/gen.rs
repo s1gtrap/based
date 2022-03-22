@@ -34,7 +34,7 @@ pub fn gen(n: usize) -> impl Generator<Yield = usize, Return = ()> {
                     }
                     for i in 0..(skip * len[len.len() - 1]) {
                         let mut j = 0;
-                        yield 'outer: loop {
+                        yield loop {
                             let mut i = i;
                             for k in (j..len.len()).rev() {
                                 i %= len[k];
