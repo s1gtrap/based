@@ -47,7 +47,7 @@ pub fn gen(n: usize) -> impl Generator<Yield = usize, Return = ()> {
                     let mut len = Vec::with_capacity(n - 2);
                     len.insert(0, skip + pass);
                     for i in 1..n - 2 {
-                        len.insert(i, skip * len[i - 1] + usize::pow(b, (n + i - 3) as _));
+                        len.insert(i, skip * len[i - 1] + usize::pow(b, (n - i - 1) as _));
                     }
                     for i in 0..(skip * len[len.len() - 1]) {
                         let mut j = 1;
