@@ -15159,3 +15159,44 @@ fn test_gen() {
         ]
     );*/
 }
+
+#[test]
+fn test_gen_with_base() {
+    fn collect(n: usize, bw: usize, b: usize) -> Vec<(based::Int, usize)> {
+        use std::ops::{Generator, GeneratorState};
+        use std::pin::Pin;
+
+        let mut v = vec![];
+
+        let mut gen = based::gen::gen_with_base(bw, b);
+        let mut digs = based::Int::new_with_base(bw, b);
+        for _ in 0..n {
+            match Pin::new(&mut gen).resume(()) {
+                GeneratorState::Yielded(i) => {
+                    v.push((digs.clone(), i));
+                    digs += i;
+                }
+                _ => unreachable!(),
+            }
+        }
+        v
+    }
+
+    assert_eq!(
+        collect(12, 2, 3),
+        vec![
+            (Int::from((3, vec![0, 0])), 1),
+            (Int::from((3, vec![1, 0])), 1),
+            (Int::from((3, vec![2, 0])), 1),
+            (Int::from((3, vec![0, 1])), 1),
+            (Int::from((3, vec![1, 1])), 1),
+            (Int::from((3, vec![2, 1])), 1),
+            (Int::from((3, vec![0, 2])), 1),
+            (Int::from((3, vec![1, 2])), 1),
+            (Int::from((3, vec![2, 2])), 4),
+            (Int::from((4, vec![3, 0])), 4),
+            (Int::from((4, vec![3, 1])), 4),
+            (Int::from((4, vec![3, 2])), 4),
+        ]
+    );
+}

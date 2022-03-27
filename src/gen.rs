@@ -7,11 +7,15 @@ use std::ops::Generator;
 }*/
 
 pub fn gen(n: usize) -> impl Generator<Yield = usize, Return = ()> {
+    gen_with_base(n, 2)
+}
+
+pub fn gen_with_base(n: usize, bj: usize) -> impl Generator<Yield = usize, Return = ()> {
     move || {
-        for b in 2.. {
+        for b in bj.. {
             match (n, b) {
-                (_, 2) => {
-                    for _ in 0..(2usize.pow(n as _) - 1) {
+                (_, bl) if bj == bl => {
+                    for _ in 0..(bl.pow(n as _) - 1) {
                         yield 1;
                     }
                 }

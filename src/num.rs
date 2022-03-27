@@ -9,8 +9,12 @@ pub struct Int {
 
 impl Int {
     pub fn new(len: usize) -> Self {
+        Self::new_with_base(len, 2)
+    }
+
+    pub fn new_with_base(len: usize, base: usize) -> Self {
         Int {
-            base: 2,
+            base,
             digs: vec![0; len],
         }
     }
