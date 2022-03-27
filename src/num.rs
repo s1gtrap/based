@@ -1,7 +1,7 @@
 use std::ops::{Add, AddAssign};
 use std::{fmt, iter};
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, PartialEq)]
 pub struct Int {
     base: usize,
     digs: Vec<usize>,
@@ -17,6 +17,12 @@ impl Int {
             base,
             digs: vec![0; len],
         }
+    }
+}
+
+impl fmt::Debug for Int {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", self)
     }
 }
 
