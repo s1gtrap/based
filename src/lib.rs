@@ -6,6 +6,9 @@ use std::hash::{Hash, Hasher};
 use std::ops::{Add, AddAssign};
 
 pub mod gen;
+mod num;
+
+pub use num::Int;
 
 #[derive(Clone, Debug, Eq)]
 pub struct Digits(pub usize, pub Vec<usize>);
@@ -32,22 +35,7 @@ impl Iterator for UniqDigits {
     }
 }
 
-fn seq(n: usize) -> Box<dyn Iterator<Item = usize>> {
-    match n {
-        0 => unimplemented!(),
-        1 => Box::new(std::iter::once(1).chain(3..)),
-        2 => Box::new(std::iter::once(1).chain(3..)),
-        3 => Box::new(std::iter::once(1).chain(3..)),
-        _ => Box::new(std::iter::once(1).chain(3..)),
-        //_ => unimplemented!(),
-    }
-}
-
 pub struct SeqDigits(Box<dyn Iterator<Item = usize>>, Digits);
-
-pub fn seq_digs(n: usize) -> SeqDigits {
-    SeqDigits(seq(n), Digits::new(2, n))
-}
 
 impl Iterator for SeqDigits {
     type Item = Digits;
@@ -67,28 +55,46 @@ impl Digits {
     }
 
     fn inc(&mut self) {
-        //println!("inc {:?}", self.1);
         self.1[0] += 1;
         for i in 0..self.1.len() {
-            //println!("inc lsb {:?}", self.1);
             if self.1[i] == self.0 {
-                //println!("carry {:?}", self.1);
                 self.1[i] = 0;
                 if i + 1 < self.1.len() {
                     self.1[i + 1] += 1;
                 } else {
                     self.0 += 1;
                 }
-                //println!("{:?}", self.1);
             }
         }
     }
 }
 
 impl AddAssign<usize> for Digits {
-    fn add_assign(&mut self, rhs: usize) {
-        for _ in 0..rhs {
-            self.inc();
+    fn add_assign(&mut self, mut rhs: usize) {
+        log::debug!("{:?} + {}", self, rhs);
+        'outer: loop {
+            for i in 0..self.1.len() {
+                log::debug!("{:?}", self);
+                let cry = (self.1[i] + rhs) / self.0;
+                log::debug!("rhs={rhs} cry={cry}");
+                log::debug!(
+                    "set self.1[{i}] = ({} + {} % {} = {}",
+                    self.1[i],
+                    rhs,
+                    self.0,
+                    (self.1[i] + rhs) % self.0
+                );
+                self.1[i] = (self.1[i] + rhs) % self.0;
+                let len = self.1.len();
+                self.1[(i + 1) % len] += cry;
+                log::debug!("{:?}", self);
+
+                rhs = match rhs {
+                    0 => break 'outer,
+                    _ if rhs <= self.0 => 0,
+                    _ => rhs % self.0,
+                };
+            }
         }
     }
 }
@@ -138,7 +144,9 @@ impl Into<usize> for Digits {
 
 impl fmt::Display for Digits {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        const ALPHABET: &[u8; 36] = b"0123456789abcdefghijklmnopqrstuvwxyz";
+        const ALPHABET: &[u8; 62] =
+            b"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
         match self.0 {
             2 => write!(f, "0b"),
             8 => write!(f, "0o"),
@@ -165,7 +173,10 @@ fn test_digits_inc() {
 }
 
 #[test]
+#[ignore]
 fn test_digits_add() {
+    env_logger::try_init().unwrap();
+
     assert_eq!(Digits::new(2, 2) + 0, Digits(2, vec![0, 0]));
     assert_eq!(Digits::new(2, 2) + 1, Digits(2, vec![1, 0]));
     assert_eq!(Digits::new(2, 2) + 2, Digits(2, vec![0, 1]));
