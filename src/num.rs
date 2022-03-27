@@ -3,8 +3,8 @@ use std::{fmt, iter};
 
 #[derive(Clone, PartialEq)]
 pub struct Int {
-    base: usize,
-    digs: Vec<usize>,
+    pub(crate) base: usize,
+    pub(crate) digs: Vec<usize>,
 }
 
 impl Int {

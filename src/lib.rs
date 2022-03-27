@@ -13,6 +13,12 @@ pub use num::Int;
 #[derive(Clone, Debug, Eq)]
 pub struct Digits(pub usize, pub Vec<usize>);
 
+impl PartialEq<Int> for Digits {
+    fn eq(&self, rhs: &Int) -> bool {
+        self.0 == rhs.base && self.1 == rhs.digs
+    }
+}
+
 #[derive(Clone, Debug)]
 pub struct UniqDigits(Digits, HashSet<Digits>);
 
