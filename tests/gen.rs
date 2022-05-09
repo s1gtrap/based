@@ -8107,10 +8107,36 @@ fn test_count_gen_eq() {
         v
     }
 
+    fn collect_i(n: usize, bw: usize) -> Vec<(based::Int, usize)> {
+        let mut v = vec![];
+
+        let mut gen = based::IncIter::new(bw, 2);
+        let mut digs = based::Int::new(bw);
+        for _ in 0..n {
+            let i = gen.next().unwrap();
+            v.push((digs.clone(), i));
+            digs += i;
+        }
+        v
+    }
+
     for bw in 2..=36 {
         for (g, c) in collect_c(1000, bw).into_iter().zip(collect_g(1000, bw)) {
             assert_eq!(g.0, c.0);
             assert_eq!(g.1, c.1);
+        }
+    }
+
+    for bw in 2..=36 {
+        for (g, c) in collect_g(1000, bw).into_iter().zip(collect_i(1000, bw)) {
+            assert_eq!(g.0, c.0);
+            assert_eq!(g.1, c.1);
+        }
+    }
+
+    for bw in 2..=36 {
+        for (g, c) in collect_g(1000, bw).into_iter().zip(based::Iter::new(bw)) {
+            assert_eq!(g.0, c);
         }
     }
 }
