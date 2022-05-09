@@ -37,7 +37,7 @@ impl fmt::Display for Int {
             16 => write!(f, "0x"),
             r => write!(f, "{}r", r),
         }?;
-        for c in &self.digs {
+        for c in self.digs.iter().rev() {
             write!(f, "{}", ALPHABET[*c] as char)?;
         }
         Ok(())

@@ -1,21 +1,15 @@
-use based::UniqDigits;
-
 fn main() {
-    let n = std::env::args()
+    let w = std::env::args()
         .nth(1)
         .expect("missing size")
         .parse()
         .unwrap();
-    let d = UniqDigits::new(2, n);
-    for d in d {
-        println!(
-            "{} + {}",
-            d,
-            d.clone()
-                .skip(1)
-                .take_while(|d| !d.1.contains(&(d.0 - 1)))
-                .count()
-                + 1,
-        );
+    let b = std::env::args()
+        .nth(2)
+        .map(|s| s.parse().unwrap())
+        .unwrap_or(2);
+    let d = based::Iter::new(w, b);
+    for i in d {
+        println!("{}", i);
     }
 }

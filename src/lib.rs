@@ -36,10 +36,10 @@ pub struct Iter {
 }
 
 impl Iter {
-    pub fn new(bw: usize) -> Self {
+    pub fn new(w: usize, b: usize) -> Self {
         Iter {
-            int: Int::new(bw),
-            iter: Box::new(IncIter::new(bw, 2)),
+            int: Int::new_with_base(w, b),
+            iter: Box::new(IncIter::new(w, b)),
         }
     }
 }
