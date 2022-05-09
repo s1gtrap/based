@@ -18,6 +18,10 @@ impl Int {
             digs: vec![0; len],
         }
     }
+
+    pub fn digits(&self) -> &[usize] {
+        &self.digs[..]
+    }
 }
 
 impl fmt::Debug for Int {
