@@ -8135,7 +8135,7 @@ fn test_count_gen_eq() {
     }
 
     for bw in 2..=36 {
-        for (g, c) in collect_g(1000, bw).into_iter().zip(based::Iter::new(bw)) {
+        for (g, c) in collect_g(1000, bw).into_iter().zip(based::Iter::new(bw, 2)) {
             assert_eq!(g.0, c);
         }
     }
